@@ -9,7 +9,7 @@
         <property name="username" value="jeju" />
         <property name="password" value="jejupw" />
     </bean>
-    <bean id="userDao" class="com.study.usermanagementapp.dao.UserDao">
+    <bean id="userDaoJdbc" class="com.study.usermanagementapp.dao.UserDaoJdbc">
         <property name="dataSource" ref="dataSource" />
     </bean>
 </beans>
