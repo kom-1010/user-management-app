@@ -3,13 +3,28 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
                 http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="userService" class="com.study.usermanagementapp.service.UserService">
+        <property name="userDao" ref="userDao" />
+        <property name="transactionManager" ref="transactionManager" />
+        <property name="mailSender" ref="mailSender" />
+    </bean>
+
+    <bean id="mailSender" class="com.study.usermanagementapp.service.DummyMailSender" />
+
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="userDao" class="com.study.usermanagementapp.dao.UserDaoJdbc">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.SimpleDriverDataSource" >
         <property name="driverClass" value="com.mysql.cj.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://localhost/jeju" />
         <property name="username" value="jeju" />
         <property name="password" value="jejupw" />
-    </bean>
-    <bean id="userDaoJdbc" class="com.study.usermanagementapp.dao.UserDaoJdbc">
-        <property name="dataSource" ref="dataSource" />
+
     </bean>
 </beans>

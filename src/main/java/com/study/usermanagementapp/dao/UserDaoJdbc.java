@@ -1,5 +1,6 @@
 package com.study.usermanagementapp.dao;
 
+import com.study.usermanagementapp.entity.Level;
 import com.study.usermanagementapp.entity.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +20,10 @@ public class UserDaoJdbc implements UserDao{
             user.setId(rs.getString("id"));
             user.setName(rs.getString("name"));
             user.setPassword(rs.getString("password"));
+            user.setEmail(rs.getString("email"));
+            user.setLogin(rs.getInt("login"));
+            user.setRecommend(rs.getInt("recommend"));
+            user.setLevel(Level.valueOf(rs.getInt("level")));
             return user;
         }
     };
@@ -29,7 +34,15 @@ public class UserDaoJdbc implements UserDao{
 
     public void add(User user) {
         jdbcTemplate.update(
-                "insert into users(id, name, password) values(?, ?, ?)", user.getId(), user.getName(), user.getPassword());
+                "insert into users(id, name, password, email, login, recommend, level) values(?, ?, ?, ?, ?, ?, ?)",
+                user.getId(),
+                user.getName(),
+                user.getPassword(),
+                user.getEmail(),
+                user.getLogin(),
+                user.getRecommend(),
+                user.getLevel().intValue()
+        );
     }
 
     public void deleteAll() {
@@ -42,6 +55,20 @@ public class UserDaoJdbc implements UserDao{
 
     public int getCount() {
         return jdbcTemplate.queryForObject("select count(*) from users", Integer.class);
+    }
+
+    @Override
+    public void update(User user) {
+        jdbcTemplate.update(
+                "update users set name = ?, password = ?, email = ?, login = ?, recommend = ?, level = ? where id = ?",
+                user.getName(),
+                user.getPassword(),
+                user.getEmail(),
+                user.getLogin(),
+                user.getRecommend(),
+                user.getLevel().intValue(),
+                user.getId()
+        );
     }
 
     public List<User> getAll() {
