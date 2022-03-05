@@ -9,7 +9,7 @@ public class UserDaoTests {
 
     @Test
     public void addAndGet() throws SQLException, ClassNotFoundException {
-        UserDao dao = new UserDao();
+        UserDao dao = new MUserDao();
 
         User user = new User();
         user.setId("abc");
